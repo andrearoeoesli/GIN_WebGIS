@@ -16,10 +16,10 @@ var vectorSource = new ol.source.Vector({
 var vector = new ol.layer.Vector({
     source: vectorSource,
     fill: new ol.style.Fill({
-        color: 'blue'
+        color: 'green'
       }),
       stroke: new ol.style.Stroke({
-        color: 'blue',
+        color: 'black',
         width: 1
       })
 });
@@ -27,7 +27,7 @@ var vector = new ol.layer.Vector({
 var source = new ol.source.ImageWMS({
     url: "http://wms.geo.admin.ch/",
     params: {
-        "LAYERS": "ch.swisstopo.pixelkarte-farbe"
+        "LAYERS": "ch.swisstopo.pixelkarte-grau"
     }
 });
 
@@ -53,8 +53,8 @@ var map = new ol.Map({
     layers: [layer, vector],
     target: document.getElementById("map"),
     view: new ol.View({
-        center: [2600000, 1200000],
-        zoom: 8,
+        center: [2692800, 1251000],
+        zoom: 10,
         projection: new ol.proj.Projection({
             code: "EPSG:2056",
             units: "m"
@@ -62,9 +62,9 @@ var map = new ol.Map({
     })
 });
 
-// Punkte verschieben
+/* Punkte verschieben
 const modify = new ol.interaction.Modify({ source: vectorSource });
-map.addInteraction(modify);
+map.addInteraction(modify);*/
 
 //Instanzierung   Übersichtskarte
 const rotateWithView = document.getElementById('rotateWithView');
@@ -72,7 +72,7 @@ const rotateWithView = document.getElementById('rotateWithView');
 var sourceOverwiew = new ol.source.ImageWMS({
 	url: "https://wms.geo.admin.ch/",
 	params: {
-		"LAYERS": "ch.swisstopo.pixelkarte-farbe"
+		"LAYERS": "ch.swisstopo.pixelkarte-grau"
 	}
 });
 var layerOverview = new ol.layer.Image({
