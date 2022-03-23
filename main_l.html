@@ -1,0 +1,64 @@
+<!DOCTYPE html -->
+<html>
+<head>
+  <title>U_Geoserver</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.13.0/css/ol.css" type="text/css">
+  <script src="ol.js"></script>
+  <style>
+    html, body {
+      font-family: sans-serif;
+      width: 100%;
+    }
+    .map {
+      height: 500px;
+      width: 100%;
+    }
+
+    .map .ol-custom-overviewmap,
+    .map .ol-custom-overviewmap.ol-uncollapsible {
+      bottom: auto;
+      left: auto;
+      right: 0;
+      top: 0;
+    }
+
+    .map .ol-custom-overviewmap:not(.ol-collapsed)  {
+      border: 1px solid black;
+      width: 300px;
+      height: 150px;
+    }
+
+    .map .ol-custom-overviewmap .ol-overviewmap-map {
+        border: none;
+        width: 300px;
+        height: 150px;
+      }
+
+    .map .ol-custom-overviewmap .ol-overviewmap-box {
+        border: 2px solid red;
+      }
+
+    .map .ol-custom-overviewmap:not(.ol-collapsed) button{
+      bottom: auto;
+      left: auto;
+      right: 1px;
+      top: 1px;
+    }
+
+    .map .ol-rotate {
+        top: 170px;
+        right: 0;
+      }
+      
+
+  </style>
+</head>
+<body>
+  <h3>Übung Geoserver</h3>
+  <h5>Andrea Röösli</h5>
+  <div id="map" class="map"></div>
+  <div id="mouse-position"></div>
+    <div><label><input type="checkbox" id="rotateWithView"> Rotate with view</label></div>
+  <script src="main_l.js"></script>
+</body>
+</html>
