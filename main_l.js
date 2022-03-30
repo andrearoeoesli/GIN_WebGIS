@@ -15,13 +15,15 @@ var vectorSource = new ol.source.Vector({
 //Instanziierung Vector Layers mit einer Source und Darstellung
 var vector = new ol.layer.Vector({
     source: vectorSource,
-    fill: new ol.style.Fill({
-        color: 'green'
-      }),
-      stroke: new ol.style.Stroke({
-        color: 'black',
-        width: 1
-      })
+    style: new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgba(0, 255, 21, 0.5)'
+        }),
+        stroke: new ol.style.Stroke({
+            color: 'green',
+            width: 1
+        })
+    })
 });
 
 var source = new ol.source.ImageWMS({
