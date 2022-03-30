@@ -12,6 +12,17 @@ var vectorSource = new ol.source.Vector({
     strategy: ol.loadingstrategy.bbox
 });
 
+//Instanziierung Kanton Source mit einer WFS GetFeature Abfrage
+var kantonSource = new ol.source.Vector({
+    format: new ol.format.GeoJSON(),
+    url: function (extent) {
+        return 'http://localhost:8080/geoserver/wfs?service=WFS&' +
+            'version=1.1.0&request=GetFeature&typename=Pfadi_Lagerplatz:Kantonsgebiet&' +
+            'outputFormat=application/json';
+    },
+    strategy: ol.loadingstrategy.bbox
+});
+
 //Instanziierung Vector Layers mit einer Source und Darstellung
 var vector = new ol.layer.Vector({
     source: vectorSource,
@@ -22,6 +33,17 @@ var vector = new ol.layer.Vector({
         stroke: new ol.style.Stroke({
             color: 'green',
             width: 1
+        })
+    })
+});
+
+//Instanziierung Kanton Layers mit einer Source und Darstellung
+var kanton = new ol.layer.Vector({
+    source: kantonSource,
+    style: new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: 'black',
+            width: 2
         })
     })
 });
@@ -52,7 +74,7 @@ var mousePositionControl = new ol.control.MousePosition({
 var map = new ol.Map({
     controls: ol.control.defaults().extend([mousePositionControl]),
   	interactions: ol.interaction.defaults().extend([new ol.interaction.DragRotateAndZoom()]),
-    layers: [layer, vector],
+    layers: [layer, kanton, vector],
     target: document.getElementById("map"),
     view: new ol.View({
         center: [2692800, 1251000],
