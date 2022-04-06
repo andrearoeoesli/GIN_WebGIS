@@ -49,7 +49,8 @@ var source = new ol.source.ImageWMS({
   url: "http://wms.geo.admin.ch/",
   params: {
       "LAYERS": "ch.swisstopo.pixelkarte-grau"
-  }
+  },
+  crossOrigin: "anonymous"
 });
 
 var layer = new ol.layer.Image({
@@ -83,18 +84,25 @@ var map = new ol.Map({
   })
 });
 
+// let canvas;
+
+// canvas = createCanvas(640,640); 
+// background(100);
+
+// // Overlay the canvas over the tile map
+// map.overlay(canvas);
+
 /* Punkte verschieben
 const modify = new ol.interaction.Modify({ source: vectorSource });
 map.addInteraction(modify);*/
 
-//Instanzierung   Übersichtskarte
-const rotateWithView = document.getElementById('rotateWithView');
 
 var sourceOverwiew = new ol.source.ImageWMS({
 url: "https://wms.geo.admin.ch/",
 params: {
   "LAYERS": "ch.swisstopo.pixelkarte-grau"
-}
+},
+crossOrigin: "anonymous"
 });
 var layerOverview = new ol.layer.Image({
 source: sourceOverwiew
@@ -142,15 +150,62 @@ pdf.setDrawColor(220,220,220);                // Farbe für Linien als RGB-Werte
 pdf.rect (20, 50, 170, 217);                  // Viereck 150mm auf 167mm
 
 //Nordpfeil einfügen
-let img = new Image();
-img.addEventListener("load", function() {
-    pdf.addImage(img, 'png', 165, 55, 20, 20);
-});
-img.src = "nordpfeil.png";
+// let img = new Image();
+// img.addEventListener("load", function() {
+//     pdf.addImage(img, 'png', 165, 55, 20, 20);
+// });
+// img.crossOrigin = 'Anonymous';
+// img.src = "nordpfeil.png";
+const mapCanvas = document.createElement("canvas");
+mapCanvas.width = 200;
+mapCanvas.height = 400;
 
-pdf.text("Massstab:", 22, 265);
+const size = map.getSize();
+const viewResolution = map.getView().getResolution();
+
+map.once('rendercomplete', function () {
+const mapContext = mapCanvas.getContext('2d');
+  Array.prototype.forEach.call(
+    document.querySelectorAll('.ol-layer canvas'),
+    function (canvas) {
+      if (canvas.width > 0) {
+        const opacity = canvas.parentNode.style.opacity;
+        mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+        const transform = canvas.style.transform;
+        // Get the transform parameters from the style's transform matrix
+        const matrix = transform
+          .match(/^matrix\(([^\(]*)\)$/)[1]
+          .split(',')
+          .map(Number);
+        // Apply the transform to the export map context
+        CanvasRenderingContext2D.prototype.setTransform.apply(
+          mapContext,
+          matrix
+        );
+        console.log(canvas.toDataURL("image/png"))
+        mapContext.drawImage(canvas, 0, 0);
+      }
+    }
+  );
+
+  dim = [170, 217];
+  pdf.text("Massstab:", 22, 265);
+    console.log(mapCanvas.toDataURL('image/png'));
+  pdf.addImage(
+    mapCanvas.toDataURL('image/jpeg'),
+    'JPEG',
+    20,
+    50,
+    dim[0],
+    dim[1]
+  );
+  // Reset original map size
+  map.setSize(size);
+  map.getView().setResolution(viewResolution);
+});
+
 
 //Button getätigt -> download PDF 
 document.querySelector("#laden").onclick = function () {
-pdf.save ("Lagerplan.pdf");
+  pdf.save ("Lagerplan.pdf");
 }
