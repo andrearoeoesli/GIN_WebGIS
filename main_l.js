@@ -167,8 +167,8 @@ document.querySelector("#laden").onclick = function () {
       var i = 0;
       while (i < 1) {
         i++;
-        // >600 um Miniansicht auszublenden
-        if (canvas.width > 600) {
+        // >800 um Miniansicht auszublenden
+        if (canvas.width > 800) {
           const opacity = canvas.parentNode.style.opacity;
           mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
           const transform = canvas.style.transform;
