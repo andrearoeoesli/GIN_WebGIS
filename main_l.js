@@ -164,22 +164,27 @@ document.querySelector("#laden").onclick = function () {
   Array.prototype.forEach.call(
     document.querySelectorAll('.ol-layer canvas'),
     function (canvas) {
-      if (canvas.width > 0) {
-        const opacity = canvas.parentNode.style.opacity;
-        mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
-        const transform = canvas.style.transform;
-        // Get the transform parameters from the style's transform matrix
-        const matrix = transform
-          .match(/^matrix\(([^\(]*)\)$/)[1]
-          .split(',')
-          .map(Number);
-        // Apply the transform to the export map context
-        CanvasRenderingContext2D.prototype.setTransform.apply(
-          mapContext,
-          matrix
-        );
-        console.log(canvas.toDataURL("image/png"))
-        mapContext.drawImage(canvas, 0, 0);
+      var i = 0;
+      while (i < 1) {
+        i++;
+        // >600 um Miniansicht auszublenden
+        if (canvas.width > 600) {
+          const opacity = canvas.parentNode.style.opacity;
+          mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+          const transform = canvas.style.transform;
+          // Get the transform parameters from the style's transform matrix
+          const matrix = transform
+            .match(/^matrix\(([^\(]*)\)$/)[1]
+            .split(',')
+            .map(Number);
+          // Apply the transform to the export map context
+          CanvasRenderingContext2D.prototype.setTransform.apply(
+            mapContext,
+            matrix
+          );
+          console.log(canvas.toDataURL("image/png"))
+          mapContext.drawImage(canvas, 0, 0);
+        }
       }
     }
   );
