@@ -116,20 +116,41 @@ const overviewMapControl = new ol.control.OverviewMap({
 }),
 });
 
-rotateWithView.addEventListener('change', function () {
-  overviewMapControl.setRotateWithView(this.checked);
-});
 
 map.addControl(overviewMapControl);
 
+
+// PDF erstellen mit Funktion jsPDF in Hochformat in A4
 var pdf = new jsPDF ( {
-orientation: "landscape",
+orientation: "portrait",
 unit: "mm",
-format: [297,210]
+format: [210,297]
 });
 
-pdf.text ("ESTESTAS SEMPER LOREM", 20, 30);
+ // Designe PDF Plan
+pdf.setFontSize(25);                          // Schriftgröße
+pdf.setFont("arial")                          // Schriftart
+pdf.setFontType("bold")                       // Schrifttyp
+pdf.text ("Zeltlager Plan", 20, 30);
+pdf.setFontSize(15);                          // Schriftgröße
+pdf.setFont("arial")                          // Schriftart
+pdf.setFontType("normal")                     // Schrifttyp
+pdf.text ("by J.Lippuner, J.Bachmann, A.Röösli", 20, 37);
 
+pdf.setLineWidth(0.5);
+pdf.setDrawColor(220,220,220);                // Farbe für Linien als RGB-Werte
+pdf.rect (20, 50, 170, 217);                  // Viereck 150mm auf 167mm
+
+//Nordpfeil einfügen
+let img = new Image();
+img.addEventListener("load", function() {
+    pdf.addImage(img, 'png', 165, 55, 20, 20);
+});
+img.src = "nordpfeil.png";
+
+pdf.text("Massstab:", 22, 265);
+
+//Button getätigt -> download PDF 
 document.querySelector("#laden").onclick = function () {
-pdf.save ("hallowelt.pdf");
+pdf.save ("Lagerplan.pdf");
 }
