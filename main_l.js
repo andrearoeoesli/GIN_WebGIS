@@ -121,7 +121,7 @@ const overviewMapControl = new ol.control.OverviewMap({
 map.addControl(overviewMapControl);
 
 
-// PDF erstellen mit Funktion jsPDF in Hochformat in A4
+// create pdf A4 high
 var pdf = new jsPDF ( {
 orientation: "portrait",
 unit: "mm",
@@ -138,7 +138,7 @@ pdf.setFont("arial")                          // Schriftart
 pdf.setFontType("normal")                     // Schrifttyp
 pdf.text ("by J.Lippuner, J.Bachmann, A.Röösli", 20, 37);
 
-//Nordpfeil einfügen
+//Insert north arrow
 let img = new Image();
 img.addEventListener("load", function() {
   pdf.addImage(img, 'png', 165, 257, 20, 20);
@@ -146,6 +146,7 @@ img.addEventListener("load", function() {
 img.crossOrigin = 'Anonymous';
 img.src = "nordpfeil.png";
 
+// get map size and resolution
 const mapCanvas = document.createElement("canvas");
 const size = map.getSize();
 mapCanvas.width = size[0];
@@ -158,7 +159,7 @@ map.once('rendercomplete', function () {
 });
 
 
-//Button getätigt -> download PDF 
+//Button clicked -> download PDF 
 document.querySelector("#laden").onclick = function () {
   const mapContext = mapCanvas.getContext('2d');
   Array.prototype.forEach.call(
@@ -189,9 +190,11 @@ document.querySelector("#laden").onclick = function () {
     }
   );
 
+  // dimension and position map in pdf
   dim = [170, 217];
   coord = [20, 50]
  
+  // fill in Image
     console.log(mapCanvas.toDataURL('image/png'));
   pdf.addImage(
     mapCanvas.toDataURL('image/jpeg'),
