@@ -4,6 +4,10 @@
   <title>Zeltkataster</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.13.0/css/ol.css" type="text/css">
   <script src="ol.js"></script>
+  <!-- Pointer events polyfill for old browsers, see https://caniuse.com/#feat=pointer -->
+  <script src="https://unpkg.com/elm-pep@1.0.6/dist/elm-pep.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+
   <style>
 
     html, body {
@@ -75,6 +79,8 @@ Bei gefundenem Standort können Zelte (Spatz und Sanasani) platziert werden.
       <option value="sarasani">Sarasani</option>
     </select>
   </div>
-  <script src="main_l.js"></script>
+  <p></p>
+  <button id="laden">PDF laden</button>
+  <script src="main_l - Kopie.js"></script>
 </body>
 </html>
