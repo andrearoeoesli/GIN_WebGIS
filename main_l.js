@@ -157,14 +157,20 @@ pdf.rect (20, 50, 170, 217);                  // Viereck 150mm auf 167mm
 // img.crossOrigin = 'Anonymous';
 // img.src = "nordpfeil.png";
 const mapCanvas = document.createElement("canvas");
-mapCanvas.width = 200;
-mapCanvas.height = 400;
-
 const size = map.getSize();
+mapCanvas.width = size[0];
+mapCanvas.height = size[1];
+
 const viewResolution = map.getView().getResolution();
 
 map.once('rendercomplete', function () {
-const mapContext = mapCanvas.getContext('2d');
+
+});
+
+
+//Button getätigt -> download PDF 
+document.querySelector("#laden").onclick = function () {
+  const mapContext = mapCanvas.getContext('2d');
   Array.prototype.forEach.call(
     document.querySelectorAll('.ol-layer canvas'),
     function (canvas) {
@@ -189,23 +195,20 @@ const mapContext = mapCanvas.getContext('2d');
   );
 
   dim = [170, 217];
+  coord = [20, 50]
   pdf.text("Massstab:", 22, 265);
     console.log(mapCanvas.toDataURL('image/png'));
   pdf.addImage(
     mapCanvas.toDataURL('image/jpeg'),
     'JPEG',
-    20,
-    50,
+    coord[0],
+    coord[1],
     dim[0],
-    dim[1]
+    dim[0] / size[0] * size[1]
   );
   // Reset original map size
   map.setSize(size);
   map.getView().setResolution(viewResolution);
-});
 
-
-//Button getätigt -> download PDF 
-document.querySelector("#laden").onclick = function () {
   pdf.save ("Lagerplan.pdf");
 }
