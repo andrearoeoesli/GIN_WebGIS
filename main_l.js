@@ -25,7 +25,7 @@ var vector = new ol.layer.Vector({
   source: vectorSource,
   style: new ol.style.Style({
       fill: new ol.style.Fill({
-          color: 'rgba(0, 255, 21, 0.5)'
+          color: 'rgba(173, 221, 142, 0.5)'
       }),
       stroke: new ol.style.Stroke({
           color: 'green',
@@ -141,10 +141,27 @@ pdf.text ("by J.Lippuner, J.Bachmann, A.Röösli", 20, 37);
 //Insert north arrow
 let img = new Image();
 img.addEventListener("load", function() {
-  pdf.addImage(img, 'png', 165, 257, 20, 20);
+  pdf.addImage(img, 'png', 165, 230, 20, 20);
 });
 img.crossOrigin = 'Anonymous';
 img.src = "nordpfeil.png";
+
+pdf.setFontType("bold")
+pdf.text("Legende", 20, 230);
+pdf.setFontType("normal")
+pdf.text("Optimale Standorte", 30, 237);
+pdf.text("Spatz", 30, 244);
+pdf.text("Sarasani", 30, 251);
+
+pdf.setFillColor(173,221,142);
+pdf.setDrawColor(0,128,0);
+pdf.circle( 25, 235, 2, 'DF');
+pdf.setFillColor(241,182,218);
+pdf.setDrawColor(208,28,139);
+pdf.circle( 25, 242, 2, 'DF');
+pdf.setFillColor(253,184,99);
+pdf.setDrawColor(230,97,1);
+pdf.circle( 25, 249, 2, 'DF');
 
 // get map size and resolution
 const mapCanvas = document.createElement("canvas");
