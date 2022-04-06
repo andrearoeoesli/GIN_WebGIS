@@ -84,13 +84,6 @@ var map = new ol.Map({
   })
 });
 
-// let canvas;
-
-// canvas = createCanvas(640,640); 
-// background(100);
-
-// // Overlay the canvas over the tile map
-// map.overlay(canvas);
 
 /* Punkte verschieben
 const modify = new ol.interaction.Modify({ source: vectorSource });
@@ -145,17 +138,14 @@ pdf.setFont("arial")                          // Schriftart
 pdf.setFontType("normal")                     // Schrifttyp
 pdf.text ("by J.Lippuner, J.Bachmann, A.Röösli", 20, 37);
 
-pdf.setLineWidth(0.5);
-pdf.setDrawColor(220,220,220);                // Farbe für Linien als RGB-Werte
-pdf.rect (20, 50, 170, 217);                  // Viereck 150mm auf 167mm
-
 //Nordpfeil einfügen
-// let img = new Image();
-// img.addEventListener("load", function() {
-//     pdf.addImage(img, 'png', 165, 55, 20, 20);
-// });
-// img.crossOrigin = 'Anonymous';
-// img.src = "nordpfeil.png";
+let img = new Image();
+img.addEventListener("load", function() {
+  pdf.addImage(img, 'png', 165, 257, 20, 20);
+});
+img.crossOrigin = 'Anonymous';
+img.src = "nordpfeil.png";
+
 const mapCanvas = document.createElement("canvas");
 const size = map.getSize();
 mapCanvas.width = size[0];
@@ -196,7 +186,7 @@ document.querySelector("#laden").onclick = function () {
 
   dim = [170, 217];
   coord = [20, 50]
-  pdf.text("Massstab:", 22, 265);
+ 
     console.log(mapCanvas.toDataURL('image/png'));
   pdf.addImage(
     mapCanvas.toDataURL('image/jpeg'),
