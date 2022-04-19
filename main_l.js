@@ -20,6 +20,17 @@ var kantonSource = new ol.source.Vector({
   strategy: ol.loadingstrategy.bbox
 });
 
+//Instanziierung Punkte Source mit einer WFS GetFeature Abfrage
+var punkteSource = new ol.source.Vector({
+  format: new ol.format.GeoJSON(),
+  url: function (extent) {
+      return 'http://localhost:8080/geoserver/wfs?service=WFS&' +
+          'version=1.1.0&request=GetFeature&typename=Pfadi_Lagerplatz:punkte&' +
+          'outputFormat=application/json';
+  },
+  strategy: ol.loadingstrategy.bbox
+});
+
 //Instanziierung Vector Layers mit einer Source und Darstellung
 var vector = new ol.layer.Vector({
   source: vectorSource,
@@ -42,6 +53,22 @@ var kanton = new ol.layer.Vector({
           color: 'black',
           width: 2
       })
+  })
+});
+
+//Instanziierung punkte Layers mit einer Source und Darstellung
+x = 10;
+
+var punkte = new ol.layer.Vector({
+  source: punkteSource,
+  style: new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 0.5],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        src: 'zelt.png',
+        scale: 0.003*x,
+    })
   })
 });
 
@@ -68,11 +95,12 @@ var mousePositionControl = new ol.control.MousePosition({
   target: document.getElementById('mouse-position'),
 });
 
+
 //Instanziierung Karte mit Layer
 var map = new ol.Map({
   controls: ol.control.defaults().extend([mousePositionControl]),
   interactions: ol.interaction.defaults().extend([new ol.interaction.DragRotateAndZoom()]),
-  layers: [layer, kanton, vector],
+  layers: [layer, kanton, vector, punkte],
   target: document.getElementById("map"),
   view: new ol.View({
       center: [2692800, 1251000],
@@ -81,9 +109,21 @@ var map = new ol.Map({
           code: "EPSG:2056",
           units: "m"
       })
-  })
+  }),
 });
 
+//Instanzierung Massstab für Skalierung von Symbolen
+
+
+
+function onChange() {
+  x = map.getView().getResolution();
+  document.getElementById("test").innerHTML = x;
+  map.removeLayer(punkte);
+  map.addLayer(punkte)
+};
+
+map.on('moveend', onChange);
 
 /* Punkte verschieben
 const modify = new ol.interaction.Modify({ source: vectorSource });
